@@ -26,6 +26,8 @@ def new_game():
 
   place_ships(board_player, board_computer)
 
+  return name_player, board_player, board_computer
+
 
 def place_ships(board1, board2):
   """
@@ -49,5 +51,12 @@ def place_ships(board1, board2):
   board2[ships_computer[3]] = "@"
 
 
-new_game()
+def main():
+  name_player, board_player, board_computer = new_game()
+
+
+main()
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
+
+
+
