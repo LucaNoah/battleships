@@ -70,11 +70,22 @@ def print_boards(name, board1, board2):
   print(board1["f4"], board1["A4"], board1["B4"], board1["C4"], board1["D4"], board1["E4"])
   print(board1["f5"], board1["A5"], board1["B5"], board1["C5"], board1["D5"], board1["E5"])
 
-  #for k, v in board2.items():
-    #if v == "@":
-      #board2[k] = "."
+  board2_noships = copy.copy(board2)
+
+  for k, v in board2_noships.items():
+    if v == "@":
+      board2_noships[k] = "."
 
   print("Computer")
+
+  print(board2_noships["f0"], board2_noships["fA"], board2_noships["fB"], board2_noships["fC"], board2_noships["fD"], board2_noships["fE"])
+  print(board2_noships["f1"], board2_noships["A1"], board2_noships["B1"], board2_noships["C1"], board2_noships["D1"], board2_noships["E1"])
+  print(board2_noships["f2"], board2_noships["A2"], board2_noships["B2"], board2_noships["C2"], board2_noships["D2"], board2_noships["E2"])
+  print(board2_noships["f3"], board2_noships["A3"], board2_noships["B3"], board2_noships["C3"], board2_noships["D3"], board2_noships["E3"])
+  print(board2_noships["f4"], board2_noships["A4"], board2_noships["B4"], board2_noships["C4"], board2_noships["D4"], board2_noships["E4"])
+  print(board2_noships["f5"], board2_noships["A5"], board2_noships["B5"], board2_noships["C5"], board2_noships["D5"], board2_noships["E5"])
+
+  #if you want to see computer ships printed uncomment code below
 
   print(board2["f0"], board2["fA"], board2["fB"], board2["fC"], board2["fD"], board2["fE"])
   print(board2["f1"], board2["A1"], board2["B1"], board2["C1"], board2["D1"], board2["E1"])
@@ -163,3 +174,4 @@ def main():
 
 main()
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
+
