@@ -36,7 +36,10 @@ def place_ships(board1, board2):
   Places 4 random ships with an @ on both game boards.
   """
 
-  list_fields = ["A1", "A2", "A3", "A4", "A5", "B1", "B2", "B3", "B4", "B5", "C1", "C2", "C3", "C4", "C5", "D1", "D2", "D3", "D4", "D5", "E1", "E2", "E3", "E4", "E5"]
+  list_fields = [
+    "A1", "A2", "A3", "A4", "A5", "B1", "B2", "B3", "B4", "B5", 
+    "C1", "C2", "C3", "C4", "C5", "D1", "D2", "D3", "D4", "D5", 
+    "E1", "E2", "E3", "E4", "E5"]
 
   ships_player = random.sample(list_fields, 4)
 
@@ -67,9 +70,9 @@ def print_boards(name, board1, board2):
   print(board1["f4"], board1["A4"], board1["B4"], board1["C4"], board1["D4"], board1["E4"])
   print(board1["f5"], board1["A5"], board1["B5"], board1["C5"], board1["D5"], board1["E5"])
 
-  for k, v in board2.items():
-    if v == "@":
-      board2[k] = "."
+  #for k, v in board2.items():
+    #if v == "@":
+      #board2[k] = "."
 
   print("Computer")
 
@@ -81,8 +84,81 @@ def print_boards(name, board1, board2):
   print(board2["f5"], board2["A5"], board2["B5"], board2["C5"], board2["D5"], board2["E5"])
 
 
+def shoot_player(name, board2):
+  """
+  Ask the player for a position to shoot at. 
+  If there is an enemy ship at this position, it will be marked with an 'x'. 
+  If there is no enemy ship there, this position is marked with a '/'. 
+  If the position has already been shot at, the player is asked to enter a new position.
+  """
+
+  shoot = True
+
+  while shoot == True:
+    target_player = input("Guess a target: ")
+
+    if board2[target_player] == ".":
+      board2[target_player] = "/"
+      print(f"{name} you missed!")
+      shoot = False
+    elif board2[target_player] == "@":
+      board2[target_player] = "x"
+      print(f"{name} you have destroyed an enemy ship!")
+      shoot = False
+    elif board2[target_player] == "/" or "x":
+      print("This position has already been fired at, choose another!")
+
+
+def shoot_computer(board1):
+  """
+  Create a random position for the computer to fire at.
+  If there is an enemy ship at this position, it will be marked with an 'x'. 
+  If there is no enemy ship there, this position is marked with a '/'.
+  The computer can not shoot the same position twice.
+  """
+
+  list_fields = [
+  "A1", "A2", "A3", "A4", "A5", "B1", "B2", "B3", "B4", "B5",
+  "C1", "C2", "C3", "C4", "C5", "D1", "D2", "D3", "D4", "D5",
+  "E1", "E2", "E3", "E4", "E5"
+  ]
+
+  shoot = True
+
+  while shoot == True:
+    target_computer = random.sample(list_fields, 1)
+
+    if board1[target_computer[0]] == ".":
+      board1[target_computer[0]] = "/"
+      print("Computer missed!")
+      shoot = False
+    elif board1[target_computer[0]] == "@":
+      board1[target_computer[0]] = "x"
+      print("Computer has destroyed one of your ships")
+      shoot = False
+    elif board1[target_computer[0]] == "/" or "x":
+      shoot = True
+
+
 def main():
+  """
+  Starts the game. Lets both parties shoot/game until one of them wins.
+  """
   name_player, board_player, board_computer = new_game()
+
+  while True:
+    shoot_player(name_player, board_computer)
+
+    shoot_computer(board_player)
+
+    print_boards(name_player, board_player, board_computer)
+
+    if not "@" in board_computer.values():
+      print(f"Game Over! {name_player} you win!")
+      return False
+    elif not "@" in board_player.values():
+      return False
+      print("Game Over! Computer win!")
 
 
 main()
