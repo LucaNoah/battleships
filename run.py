@@ -103,21 +103,32 @@ def shoot_player(name, board2):
   If the position has already been shot at, the player is asked to enter a new position.
   """
 
+  list_banned_input = [
+  "f0", "f1", "f2", "f3", "f4", "f5", 
+  "fA", "fB", "fC", "fD", "fE"
+  ]
+
   shoot = True
 
   while shoot == True:
-    target_player = input("Guess a target: ")
+    try:
+      target_player = input("Guess a target: ")
 
-    if board2[target_player] == ".":
-      board2[target_player] = "/"
-      print(f"{name} you missed!")
-      shoot = False
-    elif board2[target_player] == "@":
-      board2[target_player] = "x"
-      print(f"{name} you have destroyed an enemy ship!")
-      shoot = False
-    elif board2[target_player] == "/" or "x":
-      print("This position has already been fired at, choose another!")
+      if target_player in list_banned_input:
+        print(f"{target_player} is not a valid position!")
+      elif board2[target_player] == ".":
+        board2[target_player] = "/"
+        print(f"{name} you missed!")
+        shoot = False
+      elif board2[target_player] == "@":
+        board2[target_player] = "x"
+        print(f"{name} you have destroyed an enemy ship!")
+        shoot = False
+      elif board2[target_player] == "/" or "x":
+        print("This position has already been fired at, choose another!")
+
+    except KeyError:
+      print(f"{target_player} is not a valid position!")
 
 
 def shoot_computer(board1):
