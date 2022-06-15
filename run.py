@@ -4,7 +4,7 @@ import copy
 class Board:
   """
   Main board class. Sets the game board which user and computer use.
-  Has methods to place the ships and print the boards.
+  Has methods to place the ships, print the boards and shoot for user and computer.
   """
   def __init__(self, name):
     self.name = name
@@ -129,21 +129,30 @@ def play_game(name, board1, board2):
       print(f"Game Over! {name} you win!")
       return False
     elif not "@" in board1.board.values():
-      return False
       print("Game Over! Computer win!")
+      return False
+
+def game_info():
+  """
+   Prints a welcome message and game rules.
+  """
+  print("Welcome to Battleships!")
+  print("Rules:\nIn this game, 4 ships are randomly distributed on 2 boards and marked with an '@'.\nNow the player has to guess a field on the opponent's board.\nHits are marked with an 'x', misses with a '/'.\nAfter the player has guessed, the computer chooses a random field.\nThis continues until one of the two parties destroys all of the opponent's ships and wins.")
 
 def main():
   """
-  Starts the game. 
+  Starts the game.
   """
+  game_info()
   user_name = input("Enter your name: ")
+  print(f"Hello Captain {user_name}!")
+  print("Please enter your targets in the following format: 'A1' or 'E5'")
   user_board = Board(user_name)
   computer_board = Board("Computer")
   user_board.print_board()
   computer_board.print_board(hide_ships = False)
   play_game(user_name, user_board, computer_board)
-
+  raise SystemExit
 
 main()
-# Write your code to expect a terminal of 80 characters wide and 24 rows high#
-
+# Write your code to expect a terminal of 80 characters wide and 24 rows high
