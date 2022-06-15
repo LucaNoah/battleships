@@ -30,7 +30,7 @@ class Board:
     for ship in position_ships:
       self.board[ship] = "@"
 
-  def print_boards(self, hide_ships = False):
+  def print_board(self, hide_ships = False):
     """
     Displays the boards with the option to hide or show the ships.
     """
@@ -57,7 +57,7 @@ class Board:
       print(" ".join(list(self.board.values())[24:30]))
       print(" ".join(list(self.board.values())[30:36]))
 
-def shoot_player(name, board2):
+def shoot_user(name, opponent_board):
   """
   Ask the player for a position to shoot at. 
   If there is an enemy ship at this position, it will be marked with an 'x'. 
@@ -75,22 +75,22 @@ def shoot_player(name, board2):
 
       if target_player in list_banned_input:
         print(f"{target_player} is not a valid position!")
-      elif board2[target_player] == ".":
-        board2[target_player] = "/"
+      elif opponent_board[target_player] == ".":
+        opponent_board[target_player] = "/"
         print(f"{name} you missed!")
         shoot = False
-      elif board2[target_player] == "@":
-        board2[target_player] = "x"
+      elif opponent_board[target_player] == "@":
+        opponent_board[target_player] = "x"
         print(f"{name} you have destroyed an enemy ship!")
         shoot = False
-      elif board2[target_player] == "/" or "x":
+      elif opponent_board[target_player] == "/" or "x":
         print("This position has already been fired at, choose another!")
 
     except KeyError:
       print(f"{target_player} is not a valid position!")
 
 
-def shoot_computer(board1):
+def shoot_computer(opponent_board):
   """
   Create a random position for the computer to fire at.
   If there is an enemy ship at this position, it will be marked with an 'x'. 
@@ -106,39 +106,46 @@ def shoot_computer(board1):
   while shoot == True:
     target_computer = random.sample(list_fields, 1)
 
-    if board1[target_computer[0]] == ".":
-      board1[target_computer[0]] = "/"
+    if opponent_board[target_computer[0]] == ".":
+      opponent_board[target_computer[0]] = "/"
       print("Computer missed!")
       shoot = False
-    elif board1[target_computer[0]] == "@":
-      board1[target_computer[0]] = "x"
+    elif opponent_board[target_computer[0]] == "@":
+      opponent_board[target_computer[0]] = "x"
       print("Computer has destroyed one of your ships")
       shoot = False
-    elif board1[target_computer[0]] == "/" or "x":
+    elif opponent_board[target_computer[0]] == "/" or "x":
       shoot = True
 
-def main():
+def play_game(name, board1, board2):
   """
-  Starts the game. Lets both parties shoot/game until one of them wins.
+  Lets both parties shoot/game until one of them wins.
   """
-  name_player, board_player, board_computer = new_game()
-
   while True:
-    shoot_player(name_player, board_computer)
+    shoot_user(name, board2.board)
+    shoot_computer(board1.board)
+    board1.print_board()
+    board2.print_board(hide_ships = False)
 
-    shoot_computer(board_player)
-
-    print_boards(name_player, board_player, board_computer)
-
-    if not "@" in board_computer.values():
-      print(f"Game Over! {name_player} you win!")
+    if not "@" in board2.board.values():
+      print(f"Game Over! {name} you win!")
       return False
-    elif not "@" in board_player.values():
+    elif not "@" in board1.board.values():
       return False
       print("Game Over! Computer win!")
 
+def main():
+  """
+  Starts the game. 
+  """
+  user_name = input("Enter your name: ")
+  user_board = Board(user_name)
+  computer_board = Board("Computer")
+  user_board.print_board()
+  computer_board.print_board(hide_ships = False)
+  play_game(user_name, user_board, computer_board)
+
 
 main()
-# Write your code to expect a terminal of 80 characters wide and 24 rows high
-
+# Write your code to expect a terminal of 80 characters wide and 24 rows high#
 
