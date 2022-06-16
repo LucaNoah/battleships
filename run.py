@@ -70,7 +70,7 @@ class Board:
 
     while True:
       try:
-        target_player = input("Guess a target: ")
+        target_player = input("Guess a target:\n")
 
         if target_player in list_banned_input:
           print(f"{target_player} is not a valid position!")
@@ -112,8 +112,6 @@ class Board:
         self.board[target_computer[0]] = "x"
         print("Computer has destroyed one of your ships")
         break
-      elif self.board[target_computer[0]] == "/" or "x":
-        return True
 
 def play_game(name, board1, board2):
   """
@@ -134,7 +132,7 @@ def play_game(name, board1, board2):
 
 def game_info():
   """
-   Prints a welcome message and game rules.
+  Prints a welcome message and game rules.
   """
   print("Welcome to Battleships!")
   print("Rules:\nIn this game, 4 ships are randomly distributed on 2 boards and marked with an '@'.\nNow the player has to guess a field on the opponent's board.\nHits are marked with an 'x', misses with a '/'.\nAfter the player has guessed, the computer chooses a random field.\nThis continues until one of the two parties destroys all of the opponent's ships and wins.")
@@ -144,7 +142,7 @@ def main():
   Starts the game.
   """
   game_info()
-  user_name = input("Enter your name: ")
+  user_name = input("Enter your name:\n")
   print(f"Hello Captain {user_name}!")
   print("Please enter your targets in the following format: 'A1' or 'E5'")
   user_board = Board(user_name)
@@ -155,4 +153,3 @@ def main():
   raise SystemExit
 
 main()
-# Write your code to expect a terminal of 80 characters wide and 24 rows high
