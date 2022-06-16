@@ -1,10 +1,12 @@
 import random
 import copy
 
+
 class Board:
   """
   Main board class. Sets the game board which user and computer use.
-  Has methods to place the ships, print the boards and shoot for user and computer.
+  Has methods to place the ships, print the boards and shoot for user 
+  and computer.
   """
   def __init__(self, name):
     self.name = name
@@ -14,7 +16,7 @@ class Board:
             "f2": "2", "A2": ".", "B2": ".", "C2": ".", "D2": ".", "E2": ".",
             "f3": "3", "A3": ".", "B3": ".", "C3": ".", "D3": ".", "E3": ".",
             "f4": "4", "A4": ".", "B4": ".", "C4": ".", "D4": ".", "E4": ".",
-            "f5": "5", "A5": ".", "B5": ".", "C5": ".", "D5": ".", "E5": ".",}
+            "f5": "5", "A5": ".", "B5": ".", "C5": ".", "D5": ".", "E5": "."}
 
     self.place_ships()
 
@@ -22,15 +24,16 @@ class Board:
     """
     Places 4 random ships with an @ on the board.
     """
-    list_fields = ["A1", "A2", "A3", "A4", "A5", "B1", "B2", "B3", "B4", "B5", 
-            "C1", "C2", "C3", "C4", "C5", "D1", "D2", "D3", "D4", "D5", 
-            "E1", "E2", "E3", "E4", "E5"]
+    list_fields = [
+      "A1", "A2", "A3", "A4", "A5", "B1", "B2", "B3", "B4", "B5", 
+      "C1", "C2", "C3", "C4", "C5", "D1", "D2", "D3", "D4", "D5", 
+      "E1", "E2", "E3", "E4", "E5"]
     position_ships = random.sample(list_fields, 4)
 
     for ship in position_ships:
       self.board[ship] = "@"
 
-  def print_board(self, hide_ships = False):
+  def print_board(self, hide_ships=False):
     """
     Displays the boards with the option to hide or show the ships.
     """
@@ -62,7 +65,8 @@ class Board:
     Ask the player for a position to shoot at. 
     If there is an enemy ship at this position, it will be marked with an 'x'. 
     If there is no enemy ship there, this position is marked with a '/'. 
-    If the position has already been shot at, the player is asked to enter a new position.
+    If the position has already been shot at, the player is asked to enter a 
+    new position.
     """
     list_banned_input = [
       "f0", "f1", "f2", "f3", "f4", "f5", 
@@ -88,7 +92,6 @@ class Board:
       except KeyError:
         print(f"{target_player} is not a valid position!")
 
-
   def shoot_computer(self):
     """
     Create a random position for the computer to fire at.
@@ -97,9 +100,9 @@ class Board:
     The computer can not shoot the same position twice.
     """
     list_fields = [
-    "A1", "A2", "A3", "A4", "A5", "B1", "B2", "B3", "B4", "B5",
-    "C1", "C2", "C3", "C4", "C5", "D1", "D2", "D3", "D4", "D5",
-    "E1", "E2", "E3", "E4", "E5"]
+      "A1", "A2", "A3", "A4", "A5", "B1", "B2", "B3", "B4", "B5", 
+      "C1", "C2", "C3", "C4", "C5", "D1", "D2", "D3", "D4", "D5", 
+      "E1", "E2", "E3", "E4", "E5"]
       
     while True:
       target_computer = random.sample(list_fields, 1)
@@ -113,6 +116,7 @@ class Board:
         print("Computer has destroyed one of your ships")
         break
 
+
 def play_game(name, board1, board2):
   """
   Lets both parties shoot/game until one of them wins.
@@ -121,14 +125,15 @@ def play_game(name, board1, board2):
     board2.shoot_user(name)
     board1.shoot_computer()
     board1.print_board()
-    board2.print_board(hide_ships = False)
+    board2.print_board(hide_ships=False)
 
-    if not "@" in board2.board.values():
+    if "@" not in board2.board.values():
       print(f"Game Over! {name} you win!")
       return False
-    elif not "@" in board1.board.values():
+    elif "@" not in board1.board.values():
       print("Game Over! Computer win!")
       return False
+
 
 def game_info():
   """
@@ -136,6 +141,7 @@ def game_info():
   """
   print("Welcome to Battleships!")
   print("Rules:\n4 ships are randomly distributed on 2 boards and marked with an '@'.\nNow the player has to guess a field on the opponent's board.\nHits are marked with an 'x', misses with a '/'.\nAfter the player has guessed, the computer chooses a random field.\nThis continues until one of the two parties destroys all enemy ships.")
+
 
 def get_user_name():
   """
@@ -149,6 +155,7 @@ def get_user_name():
     else:
       return name
 
+
 def main():
   """
   Starts the game.
@@ -160,7 +167,7 @@ def main():
   user_board = Board(user_name)
   computer_board = Board("Computer")
   user_board.print_board()
-  computer_board.print_board(hide_ships = False)
+  computer_board.print_board(hide_ships=False)
   print("Please enter your targets in the following format: 'A1' or 'E5'")
   play_game(user_name, user_board, computer_board)
   raise SystemExit
