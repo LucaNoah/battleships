@@ -135,20 +135,33 @@ def game_info():
   Prints a welcome message and game rules.
   """
   print("Welcome to Battleships!")
-  print("Rules:\nIn this game, 4 ships are randomly distributed on 2 boards and marked with an '@'.\nNow the player has to guess a field on the opponent's board.\nHits are marked with an 'x', misses with a '/'.\nAfter the player has guessed, the computer chooses a random field.\nThis continues until one of the two parties destroys all of the opponent's ships and wins.")
+  print("Rules:\n4 ships are randomly distributed on 2 boards and marked with an '@'.\nNow the player has to guess a field on the opponent's board.\nHits are marked with an 'x', misses with a '/'.\nAfter the player has guessed, the computer chooses a random field.\nThis continues until one of the two parties destroys all enemy ships.")
+
+def get_user_name():
+  """
+  Get the user name and check if the entered name contains at least 1 letter.
+  """
+  while True:
+    name = input("Enter you name:\n")
+
+    if len(name) == 0:
+      print("Please enter a name with at least one letter!")
+    else:
+      return name
 
 def main():
   """
   Starts the game.
   """
   game_info()
-  user_name = input("Enter your name:\n")
-  print(f"Hello Captain {user_name}!")
-  print("Please enter your targets in the following format: 'A1' or 'E5'")
+  user_name = get_user_name()
+  print(f"Ahoy Captain {user_name}!")
+  print("May there always be a guiding light on all of your journeys \n& water under the keel.")
   user_board = Board(user_name)
   computer_board = Board("Computer")
   user_board.print_board()
   computer_board.print_board(hide_ships = False)
+  print("Please enter your targets in the following format: 'A1' or 'E5'")
   play_game(user_name, user_board, computer_board)
   raise SystemExit
 
