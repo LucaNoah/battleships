@@ -2,6 +2,22 @@ import random
 import copy
 
 
+WELCOME_MESSAGE = """
+Welcome to Battleships!
+Rules:
+* 4 ships are randomly distributed on 2 boards and marked with an '@'.
+* Now the player has to guess a field on the opponent's board.
+* Hits are marked with an 'x', misses with a '/'.
+* After the player has guessed, the computer chooses a random field.
+* This continues until one of the two parties destroys all enemy ships.
+"""
+
+GAME_START_MESSAGE_TEMPLATE = """
+Ahoy Captain {user_name}!
+May there always be a guiding light on all of your journeys 
+& water under the keel.
+"""
+
 class Board:
   """
   Main board class. Sets the game board which user and computer use.
@@ -135,14 +151,6 @@ def play_game(name, board1, board2):
       return False
 
 
-def game_info():
-  """
-  Prints a welcome message and game rules.
-  """
-  print("Welcome to Battleships!")
-  print("Rules:\n4 ships are randomly distributed on 2 boards and marked with an '@'.\nNow the player has to guess a field on the opponent's board.\nHits are marked with an 'x', misses with a '/'.\nAfter the player has guessed, the computer chooses a random field.\nThis continues until one of the two parties destroys all enemy ships.")
-
-
 def get_user_name():
   """
   Get the user name and check if the entered name contains at least 1 letter.
@@ -160,16 +168,19 @@ def main():
   """
   Starts the game.
   """
-  game_info()
+  print(WELCOME_MESSAGE)
   user_name = get_user_name()
-  print(f"Ahoy Captain {user_name}!")
-  print("May there always be a guiding light on all of your journeys \n& water under the keel.")
+  print(GAME_START_MESSAGE_TEMPLATE.format(user_name=user_name))
+
   user_board = Board(user_name)
   computer_board = Board("Computer")
+
   user_board.print_board()
   computer_board.print_board(hide_ships=False)
+
   print("Please enter your targets in the following format: 'A1' or 'E5'")
   play_game(user_name, user_board, computer_board)
-  raise SystemExit
+  
+  exit(0)
 
 main()
