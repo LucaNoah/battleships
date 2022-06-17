@@ -192,7 +192,7 @@ def main():
     computer_board = Board("Computer")
 
     user_board.print_board()
-    computer_board.print_board(hide_ships=False)
+    computer_board.print_board(hide_ships=True)
 
     print("Please enter your targets in the following format: 'A1' or 'e5'")
     play_game(user_board, computer_board)
