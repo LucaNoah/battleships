@@ -68,6 +68,16 @@ The board class stores the game board, positions of the ships, positions of the 
 
 The class also has methods that the game needs to work. These are the print_board method, the place_ships method, the shoot_user and shoot_computer method and the all_ships_destroyed method to determine a winner.
 
+## Imported library's
+---
+- ### random
+
+I added this library to randomly position the ships and let the computer make a random guess.
+
+- ### copy
+
+I added this library to hide the ships of the computer when printing the boards and to create copies of variables.
+
 ## Testing
 ---
 I have tested this project manually as follows:
@@ -92,7 +102,12 @@ This error message appears because the PEP8 linter considers the print statement
 
 ![Screenshot of pep8 linter](assets/images/pp3-pep8-screenshot.PNG)
 
+## Project logic planning
+---
 
+I used this flowchart to plan the logic for this project and followed it while building the project. It may be that the logic of the project at certain points deviates from the flowchart.
+
+![Flowchart](assets/images/pp3-flowchart.png)
 
 ## Deployment
 ---
