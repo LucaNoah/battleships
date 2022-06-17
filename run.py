@@ -89,7 +89,7 @@ class Board:
         print(" ".join(list(board_to_print.values())[24:30]))
         print(" ".join(list(board_to_print.values())[30:36]))
 
-    def shoot_user(self):
+    def shoot_user(self, name):
         """
         Ask the player for a position to shoot at.
         If there is an enemy ship at this position,
@@ -101,23 +101,23 @@ class Board:
 
         while True:
             try:
-                target_player = input("Guess a target:\n").upper()
+                target_position_player = input("Guess a target:\n").upper()
 
-                if target_player in self.INVALID_POSITIONS:
-                    print(f"{target_player} is not a valid position!")
-                elif self.board[target_player] == ".":
-                    self.board[target_player] = "/"
-                    print(f"{self.name} you missed!")
+                if target_position_player in self.INVALID_POSITIONS:
+                    print(f"{target_position_player} is not a valid position!")
+                elif self.board[target_position_player] == ".":
+                    self.board[target_position_player] = "/"
+                    print(f"{name} you missed!")
                     break
-                elif self.board[target_player] == "@":
-                    self.board[target_player] = "x"
-                    print(f"{self.name} you have destroyed an enemy ship!")
+                elif self.board[target_position_player] == "@":
+                    self.board[target_position_player] = "x"
+                    print(f"{name} you have destroyed an enemy ship!")
                     break
-                elif self.board[target_player] == "/" or "x":
+                elif self.board[target_position_player] == "/" or "x":
                     print("This position has already been fired at, choose another!")
 
             except KeyError:
-                print(f"{target_player} is not a valid position!")
+                print(f"{target_position_player} is not a valid position!")
 
     def shoot_computer(self):
         """
@@ -129,14 +129,14 @@ class Board:
         """
 
         while True:
-            target_computer = random.sample(self.VALID_POSITIONS, 1)
+            target_position_computer = random.sample(self.VALID_POSITIONS, 1)
 
-            if self.board[target_computer[0]] == ".":
-                self.board[target_computer[0]] = "/"
+            if self.board[target_position_computer[0]] == ".":
+                self.board[target_position_computer[0]] = "/"
                 print("Computer missed!")
                 break
-            elif self.board[target_computer[0]] == "@":
-                self.board[target_computer[0]] = "x"
+            elif self.board[target_position_computer[0]] == "@":
+                self.board[target_position_computer[0]] = "x"
                 print("Computer has destroyed one of your ships")
                 break
 
@@ -152,7 +152,7 @@ def play_game(user_board, computer_board):
     Lets both parties shoot/game until one of them wins.
     """
     while True:
-        computer_board.shoot_user()
+        computer_board.shoot_user(user_board.name)
         user_board.shoot_computer()
 
         user_board.print_board()
