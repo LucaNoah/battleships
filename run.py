@@ -18,15 +18,15 @@ May there always be a guiding light on all of your journeys
 & water under the keel.
 """
 
+
 class Board:
   """
   Main board class. Sets the game board which user and computer use.
   Has methods to place the ships, print the boards and shoot for user 
   and computer.
   """
-  def __init__(self, name):
-    self.name = name
-    self.board = {
+
+  INITIAL_GAME_BOARD = {
             "f0": "*", "fA": "A", "fB": "B", "fC": "C", "fD": "D", "fE": "E",
             "f1": "1", "A1": ".", "B1": ".", "C1": ".", "D1": ".", "E1": ".",
             "f2": "2", "A2": ".", "B2": ".", "C2": ".", "D2": ".", "E2": ".",
@@ -34,17 +34,28 @@ class Board:
             "f4": "4", "A4": ".", "B4": ".", "C4": ".", "D4": ".", "E4": ".",
             "f5": "5", "A5": ".", "B5": ".", "C5": ".", "D5": ".", "E5": "."}
 
+  VALID_POSITIONS = [
+        "A1", "A2", "A3", "A4", "A5", "B1", "B2", "B3", "B4", "B5", 
+        "C1", "C2", "C3", "C4", "C5", "D1", "D2", "D3", "D4", "D5", 
+        "E1", "E2", "E3", "E4", "E5"]
+
+  INVALID_POSITIONS = [
+      "f0", "f1", "f2", "f3", "f4", "f5", 
+      "fA", "fB", "fC", "fD", "fE"]
+
+
+  def __init__(self, name):
+    self.name = name
+    self.board = copy.copy(self.INITIAL_GAME_BOARD)
+
     self.place_ships()
 
   def place_ships(self):
     """
     Places 4 random ships with an @ on the board.
     """
-    list_fields = [
-      "A1", "A2", "A3", "A4", "A5", "B1", "B2", "B3", "B4", "B5", 
-      "C1", "C2", "C3", "C4", "C5", "D1", "D2", "D3", "D4", "D5", 
-      "E1", "E2", "E3", "E4", "E5"]
-    position_ships = random.sample(list_fields, 4)
+    
+    position_ships = random.sample(self.VALID_POSITIONS, 4)
 
     for ship in position_ships:
       self.board[ship] = "@"
@@ -52,6 +63,10 @@ class Board:
   def print_board(self, hide_ships=False):
     """
     Displays the boards with the option to hide or show the ships.
+
+    Args:
+    hide_ships: Whether to show the actual ship position.
+    This is useful when you want to see the computers ships.
     """
     board_copy = copy.copy(self.board)
 
@@ -61,22 +76,16 @@ class Board:
 
     print(self.name)
 
-    if hide_ships:
-      print(" ".join(list(board_copy.values())[:6]))
-      print(" ".join(list(board_copy.values())[6:12]))
-      print(" ".join(list(board_copy.values())[12:18]))
-      print(" ".join(list(board_copy.values())[18:24]))
-      print(" ".join(list(board_copy.values())[24:30]))
-      print(" ".join(list(board_copy.values())[30:36]))
-    else:
-      print(" ".join(list(self.board.values())[:6]))
-      print(" ".join(list(self.board.values())[6:12]))
-      print(" ".join(list(self.board.values())[12:18]))
-      print(" ".join(list(self.board.values())[18:24]))
-      print(" ".join(list(self.board.values())[24:30]))
-      print(" ".join(list(self.board.values())[30:36]))
+    board_to_print = board_copy if hide_ships else self.board
 
-  def shoot_user(self, name):
+    print(" ".join(list(board_to_print.values())[:6]))
+    print(" ".join(list(board_to_print.values())[6:12]))
+    print(" ".join(list(board_to_print.values())[12:18]))
+    print(" ".join(list(board_to_print.values())[18:24]))
+    print(" ".join(list(board_to_print.values())[24:30]))
+    print(" ".join(list(board_to_print.values())[30:36]))
+
+  def shoot_user(self):
     """
     Ask the player for a position to shoot at. 
     If there is an enemy ship at this position, it will be marked with an 'x'. 
@@ -84,23 +93,20 @@ class Board:
     If the position has already been shot at, the player is asked to enter a 
     new position.
     """
-    list_banned_input = [
-      "f0", "f1", "f2", "f3", "f4", "f5", 
-      "fA", "fB", "fC", "fD", "fE"]
 
     while True:
       try:
-        target_player = input("Guess a target:\n")
+        target_player = input("Guess a target:\n").upper()
 
-        if target_player in list_banned_input:
+        if target_player in self.INVALID_POSITIONS:
           print(f"{target_player} is not a valid position!")
         elif self.board[target_player] == ".":
           self.board[target_player] = "/"
-          print(f"{name} you missed!")
+          print(f"{self.name} you missed!")
           break
         elif self.board[target_player] == "@":
           self.board[target_player] = "x"
-          print(f"{name} you have destroyed an enemy ship!")
+          print(f"{self.name} you have destroyed an enemy ship!")
           break
         elif self.board[target_player] == "/" or "x":
           print("This position has already been fired at, choose another!")
@@ -115,13 +121,9 @@ class Board:
     If there is no enemy ship there, this position is marked with a '/'.
     The computer can not shoot the same position twice.
     """
-    list_fields = [
-      "A1", "A2", "A3", "A4", "A5", "B1", "B2", "B3", "B4", "B5", 
-      "C1", "C2", "C3", "C4", "C5", "D1", "D2", "D3", "D4", "D5", 
-      "E1", "E2", "E3", "E4", "E5"]
       
     while True:
-      target_computer = random.sample(list_fields, 1)
+      target_computer = random.sample(self.VALID_POSITIONS, 1)
 
       if self.board[target_computer[0]] == ".":
         self.board[target_computer[0]] = "/"
@@ -132,23 +134,32 @@ class Board:
         print("Computer has destroyed one of your ships")
         break
 
+  def all_ships_destroyed(self):
+    """
+    Checks if there is a ship left on the board.
+    """
+    return "@" not in self.board.values()
 
-def play_game(name, board1, board2):
+
+def play_game(user_board, computer_board):
   """
   Lets both parties shoot/game until one of them wins.
   """
   while True:
-    board2.shoot_user(name)
-    board1.shoot_computer()
-    board1.print_board()
-    board2.print_board(hide_ships=False)
+    computer_board.shoot_user()
+    user_board.shoot_computer()
 
-    if "@" not in board2.board.values():
-      print(f"Game Over! {name} you win!")
-      return False
-    elif "@" not in board1.board.values():
+    user_board.print_board()
+    computer_board.print_board(hide_ships=True)
+
+    if computer_board.all_ships_destroyed():
+      print(f"Game Over! {user_board.name} you win!")
+      break
+
+    if user_board.all_ships_destroyed():
       print("Game Over! Computer win!")
-      return False
+      break
+
 
 
 def get_user_name():
@@ -178,9 +189,10 @@ def main():
   user_board.print_board()
   computer_board.print_board(hide_ships=False)
 
-  print("Please enter your targets in the following format: 'A1' or 'E5'")
-  play_game(user_name, user_board, computer_board)
+  print("Please enter your targets in the following format: 'A1' or 'e5'")
+  play_game(user_board, computer_board)
   
   exit(0)
 
-main()
+if __name__ == "__main__":
+  main()
