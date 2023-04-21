@@ -4,7 +4,7 @@ Battleships is a python terminal game. It runs in the Code Institute mock termin
 
 The user can try to defeat the computer by locating all his battleships before the computer finds his.
 
-The live link ca be found here - [BATTLESHIPS](https://portfolio-project-3-luca-noah.herokuapp.com/)
+The live link ca be found here - [BATTLESHIPS](https://battleships-luno.herokuapp.com/)
 
 ![Screenshot of the app on several screen sizes](assets/images/pp3-responsive-screenshot.PNG)
 
